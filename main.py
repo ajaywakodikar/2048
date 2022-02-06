@@ -30,6 +30,21 @@ class Game2048:
             self.Board()
             pg.display.update()
 
+            for event in pg.event.get(): 
+                if event.type == pg.QUIT:
+                    run = False
+                elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_UP: 
+                        print("U")
+                    elif event.key == pg.K_DOWN: 
+                        print("D")
+                    elif event.key == pg.K_LEFT: 
+                        print("L")
+                    elif event.key == pg.K_RIGHT: 
+                        print("R")
+                    elif event.key == pg.K_ESCAPE:
+                        run = False
+
 if __name__ == "__main__":
     game = Game2048()
     game.play()
