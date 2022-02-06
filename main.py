@@ -54,7 +54,9 @@ class Game2048:
                 cellValue = int(self.boardStatus[r][c])
                 pg.draw.rect(self.win, BG_COLORS[cellValue], pg.Rect(rectX, rectY, self.cellSize, self.cellSize))
                 if cellValue != 0: 
-                    pass
+                    textSurface = self.myFont.render(f"{cellValue}", True, (0, 0, 0))
+                    textRect = textSurface.get_rect(center = (rectX + self.blockSize / 2, rectY + self.blockSize / 2))
+                    self.win.blit(textSurface, textRect)
 
     def compressNumber(self, data):
         result = [0]
@@ -92,6 +94,15 @@ class Game2048:
             else:
                 self.boardStatus[i, :] = data
 
+    def isGameOver(self):
+        boardStatusBackup = self.boardStatus.copy()
+        for dir in "UDLR":
+            self.move(dir)
+            if(self.boardStatus == boardStatusBackup).all() == False:
+                self.boardStatus = boardStatusBackup
+                return False
+        return True
+
     def play(self):
         run = True
         while run:
@@ -99,6 +110,7 @@ class Game2048:
             pg.display.update()
 
             for event in pg.event.get(): 
+                oldBoardStatus = self.boardStatus.copy()
                 if event.type == pg.QUIT:
                     run = False
                 elif event.type == pg.KEYDOWN:
@@ -112,6 +124,13 @@ class Game2048:
                         self.move("R")
                     elif event.key == pg.K_ESCAPE:
                         run = False
+                
+                if self.isGameOver():
+                    print("Game Over !!")
+                    return
+
+                if(self.boardStatus == oldBoardStatus).all() == False:
+                    self.addNewNumber()
 
 if __name__ == "__main__":
     game = Game2048()
