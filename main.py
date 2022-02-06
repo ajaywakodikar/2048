@@ -2,18 +2,32 @@ import pygame as pg
 
 class Game2048:
     def __init__(self) -> None:
-        self.Height = 540
-        self.Width = 960
+        self.N = 4
+        self.cellSize = 100
+        self.gap = 5
+        self.blockSize = self.cellSize + self.gap * 2
+        self.winBgColor = (100, 150, 200)
+        self.winWidth = self.blockSize * 4
+        self.winHeight = self.winWidth
 
         pg.init()
 
         #window creation
-        self.win = pg.display.set_mode((self.Width, self.Height))
+        self.win = pg.display.set_mode((self.winWidth, self.winHeight))
         pg.display.set_caption("2048")
+
+    def Board(self):
+        self.win.fill(self.winBgColor)
+        for r in range(self.N):
+            rectY = self.blockSize * r + self.gap
+            for c in range(self.N):
+                rectX = self.blockSize * c + self.gap
+                pg.draw.rect(self.win, (0, 0, 0), pg.Rect(rectX, rectY, self.cellSize, self.cellSize))
 
     def play(self):
         run = True
         while run:
+            self.Board()
             pg.display.update()
 
 if __name__ == "__main__":
