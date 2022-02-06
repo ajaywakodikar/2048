@@ -125,12 +125,12 @@ class Game2048:
                     elif event.key == pg.K_ESCAPE:
                         run = False
                 
-                if self.isGameOver():
-                    print("Game Over !!")
-                    return
+                    if self.isGameOver():
+                        print("Game Over !!")
+                        return
 
-                if(self.boardStatus == oldBoardStatus).all() == False:
-                    self.addNewNumber()
+                    if(self.boardStatus == oldBoardStatus).all() == False:
+                        self.addNewNumber()
 
 if __name__ == "__main__":
     game = Game2048()
